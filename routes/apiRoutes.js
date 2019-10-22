@@ -16,13 +16,16 @@ module.exports = function(app) {
 
   // Scrapes the cnet website
   app.get("/scrape", function(req, res) {
+
+    db.Article.deleteMany({});
+
     axios.get("https://www.cnet.com/news/").then(function(response) {
       var $ = cheerio.load(response.data);
   
       $(".col-5.assetText").each(function(i, element) {
         var result = {};
         result.title = $(this).children("h3").text().trim();
-        result.link = $(this).children("h3").children("a").attr("href");
+        result.link = "http://www.cnet.com" + $(this).children("h3").children("a").attr("href");
         result.summary = $(this).children("p").text().trim();
 
         db.Article.create(result)

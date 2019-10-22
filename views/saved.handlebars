@@ -5,16 +5,17 @@
   </div>
 
     {{#each articles}}
-      {{#unless this.saved}}
+      {{#if this.saved}}
         <div class="card mb-3">
           <div class="card-header">
             <h3><a href="{{this.link}}">{{this.title}}</a></h3>
-            <a class="btn btn-primary" role="button">Save Article</a>
+            <a class="btn btn-danger" role="button">Delete from Saved</a>
+            <a class="btn btn-dark" role="button">Article Notes</a>
           </div>
           <div class="card-body">
             {{this.summary}}
           </div>
         </div>
-      {{/unless}}
+        {{/if}}
     {{/each}}
 </div>
