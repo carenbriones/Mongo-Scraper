@@ -9,8 +9,8 @@
         <div class="card mb-3">
           <div class="card-header">
             <h3><a href="{{this.link}}">{{this.title}}</a></h3>
-            <a class="btn btn-danger" role="button">Delete from Saved</a>
-            <a class="btn btn-secondary" role="button">Article Notes</a>
+            <a class="btn btn-danger delete-article-btn" role="button" data-id={{this._id}}>Delete from Saved</a>
+            <a class="btn btn-secondary" role="button" data-id={{this._id}}>Article Notes</a>
           </div>
           <div class="card-body">
             {{this.summary}}
@@ -19,3 +19,5 @@
         {{/if}}
     {{/each}}
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="/index.js"></script>

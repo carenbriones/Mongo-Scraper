@@ -49,5 +49,16 @@ module.exports = function(app) {
         res.json(err);
       });
   })
+
+  app.delete("/api/notes/:id", function(req, res) {
+    db.Article.findOneAndDelete(
+      {_id: req.params.id}
+    ).then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    })
+  })
   
 }
