@@ -16,9 +16,6 @@ module.exports = function(app) {
 
   // Scrapes the cnet website
   app.get("/scrape", function(req, res) {
-
-    db.Article.deleteMany({});
-
     axios.get("https://www.cnet.com/news/").then(function(response) {
       var $ = cheerio.load(response.data);
   
@@ -39,4 +36,18 @@ module.exports = function(app) {
       res.send("Scrape complete.");
     })
   })
+
+  app.post("/api/notes/:id", function(req, res) {
+    db.Article.findOneAndUpdate(
+      {_id: req.params.id},
+      {saved: true},
+      {new: true})
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  })
+  
 }
