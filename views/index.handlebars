@@ -1,1 +1,17 @@
-Hello!
+<div class="container-fluid">
+  <div class="jumbotron jumbotron-fluid">
+    <h1 class="display-4">Mongoose Scraper</h1>
+    <p class="lead">C|Net Edition</p>
+  </div>
+
+    {{#each articles}}
+      <div class="card">
+        <div class="card-header">
+          <h3><a href="http://www.cnet.com{{this.link}}">{{this.title}}</a></h3>
+        </div>
+        <div class="card-body">
+          {{this.summary}}
+        </div>
+      </div>
+    {{/each}}
+</div>
