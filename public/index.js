@@ -82,4 +82,34 @@ $(document).ready(function() {
       document.location.reload();
     })
   })
+
+  // Scrapes new articles if there are no articles in the db
+  $(document).on("click", ".scrape-articles-btn", function() {
+    $.ajax({
+      url: "/articles",
+      method: "GET"
+    })
+    .then(function(dbArticles) {
+      // Only scrapes if there are no articles
+      if (dbArticles.length === 0) {
+        $.ajax({
+          url: "/scrape",
+          method: "GET"
+        })
+        .then(function() {
+          document.location.reload();
+        })
+      }
+    })
+  })
+
+  // Clears all articles in the db
+  $(document).on("click", ".clear-articles-btn", function() {
+    $.ajax({
+      url: "/api/articles",
+      method: "DELETE"
+    }).then(function() {
+      document.location.reload();
+    })
+  })
 });

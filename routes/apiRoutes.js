@@ -50,6 +50,17 @@ module.exports = function(app) {
       })
   })
 
+  // Gets all notes in the database
+  app.get("/api/notes", function(req, res) {
+    db.Note.find({})
+      .then(function(dbNotes) {
+        res.json(dbNotes);
+      })
+      .catch(function(err) {
+        res.json(err);
+      })
+  })
+
   // Changes the saved state of the article
   app.post("/api/articles/:id", function(req, res) {
     db.Article.findOneAndUpdate(
@@ -79,7 +90,7 @@ module.exports = function(app) {
       })
   })
 
-  // Deletes article from the db by its id
+  // Deletes an article from the db by its id
   app.delete("/api/articles/:id", function(req, res) {
     db.Article.findOneAndDelete(
       {_id: req.params.id}
@@ -91,6 +102,7 @@ module.exports = function(app) {
     })
   })
 
+  // Deletes a note from the db by its id
   app.delete("/api/notes/:id", function(req, res) {
     db.Note.findOneAndDelete(
       {_id: req.params.id}
@@ -102,10 +114,10 @@ module.exports = function(app) {
     })
   })
 
-  app.get("/api/notes", function(req, res) {
-    db.Note.find({})
-      .then(function(dbNotes) {
-        res.json(dbNotes);
+  app.delete("/api/articles", function(req, res) {
+    db.Article.remove({})
+      .then(function(dbArticles) {
+        res.json(dbArticles);
       })
       .catch(function(err) {
         res.json(err);
