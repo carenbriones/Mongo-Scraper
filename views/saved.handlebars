@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="jumbotron jumbotron-fluid">
+  <div class="jumbotron">
     <h1 class="display-4">Mongoose Scraper</h1>
     <p class="lead">C|Net Edition</p>
   </div>
@@ -9,15 +9,40 @@
         <div class="card mb-3">
           <div class="card-header">
             <h3><a href="{{this.link}}">{{this.title}}</a></h3>
-            <a class="btn btn-danger delete-article-btn" role="button" data-id={{this._id}}>Delete from Saved</a>
-            <a class="btn btn-secondary" role="button" data-id={{this._id}}>Article Notes</a>
+            <button type="button" class="btn btn-danger delete-article-btn" role="button" data-id={{this._id}}>Delete from Saved</button>
+            <button type="button" class="btn btn-secondary article-notes-btn" role="button" data-id={{this._id}}>Article Notes</button>
           </div>
           <div class="card-body">
             {{this.summary}}
           </div>
         </div>
-        {{/if}}
+
+      {{/if}}
     {{/each}}
+
+  <!-- Modal -->
+  <div class="modal fade notes-modal" tabindex="-1" role="dialog" aria-labelledby="notes-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notes-modal-label">Notes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <textarea class="form-control note-body"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary add-note-btn" >Add Note</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="/index.js"></script>

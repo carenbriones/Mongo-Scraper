@@ -37,7 +37,8 @@ module.exports = function(app) {
     })
   })
 
-  app.post("/api/notes/:id", function(req, res) {
+  // Changes the saved state of the article
+  app.post("/api/articles/:id", function(req, res) {
     db.Article.findOneAndUpdate(
       {_id: req.params.id},
       {saved: true},
@@ -50,7 +51,22 @@ module.exports = function(app) {
       });
   })
 
-  app.delete("/api/notes/:id", function(req, res) {
+  // Adds a note to an article
+  app.post("/notes/:id", function(req, res) {
+    console.log(req.body);
+    db.Note.create(req.body)
+      .then(function(dbNote) {
+        return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true})
+      })
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      })
+  })
+
+  app.delete("/api/articles/:id", function(req, res) {
     db.Article.findOneAndDelete(
       {_id: req.params.id}
     ).then(function(dbArticle) {
