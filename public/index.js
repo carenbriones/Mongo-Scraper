@@ -34,10 +34,16 @@ $(document).ready(function() {
     }).then(function(dbArticle) {
       console.log(dbArticle);
       if (dbArticle.notes.length > 0) {
+        // Creates a card for each note that an article may have
         for (var i = 0; i < dbArticle.notes.length; i++) {
           var card = $("<div>").addClass("card");
-          console.log(dbArticle.notes[i].body)
-          card.append($("<div>").addClass("card-body").text(dbArticle.notes[i].body));
+          var cardBody = $("<div>").addClass("card-body");
+          var button = "<button type='button' class='btn btn-danger delete-note-btn mr-3'"
+          button += " role='button' data-id=\'" + dbArticle.notes[i]._id + "\'>";
+          button += "X</button>";
+          cardBody.text(dbArticle.notes[i].body);
+          cardBody.prepend(button);
+          card.append(cardBody);
           $(".article-notes").prepend(card);
         }
       }
