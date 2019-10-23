@@ -27,6 +27,22 @@ $(document).ready(function() {
   $(document).on("click", ".article-notes-btn", function() {
     const articleId = $(this).attr("data-id");
     $(".add-note-btn").attr("data-id", articleId);
+
+    $.ajax({
+      url: "/articles/" + articleId,
+      method: "GET"
+    }).then(function(dbArticle) {
+      console.log(dbArticle);
+      if (dbArticle.notes.length > 0) {
+        for (var i = 0; i < dbArticle.notes.length; i++) {
+          var card = $("<div>").addClass("card");
+          console.log(dbArticle.notes[i].body)
+          card.append($("<div>").addClass("card-body").text(dbArticle.notes[i].body));
+          $(".article-notes").prepend(card);
+        }
+      }
+    })
+
     $(".notes-modal").modal("show");
   })
 

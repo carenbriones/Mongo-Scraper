@@ -3,6 +3,7 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 module.exports = function(app) {
+
   // Route for getting all Articles from the db
   app.get("/articles", function(req, res) {
     // TODO: Finish the route so it grabs all of the articles
@@ -35,6 +36,18 @@ module.exports = function(app) {
       });
       res.send("Scrape complete.");
     })
+  })
+
+  // Gets an article by its id and populates its notes
+  app.get("/articles/:id", function(req, res) {
+    db.Article.findOne({_id: req.params.id})
+      .populate("notes")
+      .then(function(dbArticle) {
+        res.json(dbArticle)
+      })
+      .catch(function(err) {
+        res.json(err);
+      })
   })
 
   // Changes the saved state of the article
