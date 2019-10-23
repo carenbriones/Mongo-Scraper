@@ -27,6 +27,7 @@ $(document).ready(function() {
   $(document).on("click", ".article-notes-btn", function() {
     const articleId = $(this).attr("data-id");
     $(".add-note-btn").attr("data-id", articleId);
+    $(".article-notes").empty();
 
     $.ajax({
       url: "/articles/" + articleId,
@@ -68,5 +69,17 @@ $(document).ready(function() {
         document.location.reload();
       })
     }
+  })
+
+  $(document).on("click", ".delete-note-btn", function() {
+    var noteId = $(this).attr("data-id");
+    console.log(noteId);
+    $.ajax({
+      url: "/api/notes/" + noteId,
+      method: "DELETE"
+    })
+    .then(function() {
+      document.location.reload();
+    })
   })
 });

@@ -79,6 +79,7 @@ module.exports = function(app) {
       })
   })
 
+  // Deletes article from the db by its id
   app.delete("/api/articles/:id", function(req, res) {
     db.Article.findOneAndDelete(
       {_id: req.params.id}
@@ -88,6 +89,27 @@ module.exports = function(app) {
     .catch(function(err) {
       res.json(err);
     })
+  })
+
+  app.delete("/api/notes/:id", function(req, res) {
+    db.Note.findOneAndDelete(
+      {_id: req.params.id}
+    ).then(function(dbNote) {
+      res.json(dbNote);
+    })
+    .catch(function(err) {
+      res.json(err);
+    })
+  })
+
+  app.get("/api/notes", function(req, res) {
+    db.Note.find({})
+      .then(function(dbNotes) {
+        res.json(dbNotes);
+      })
+      .catch(function(err) {
+        res.json(err);
+      })
   })
   
 }
