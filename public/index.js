@@ -28,7 +28,7 @@ $(document).ready(function() {
     const articleId = $(this).attr("data-id");
     $(".add-note-btn").attr("data-id", articleId);
     $(".article-notes").empty();
-
+  
     $.ajax({
       url: "/articles/" + articleId,
       method: "GET"
@@ -37,19 +37,10 @@ $(document).ready(function() {
       if (dbArticle.notes.length > 0) {
         // Creates a card for each note that an article may have
         for (var i = 0; i < dbArticle.notes.length; i++) {
-          var card = $("<div>").addClass("card");
-          var cardBody = $("<div>").addClass("card-body");
-          var button = "<button type='button' class='btn btn-danger delete-note-btn mr-3'"
-          button += " role='button' data-id=\'" + dbArticle.notes[i]._id + "\'>";
-          button += "X</button>";
-          cardBody.text(dbArticle.notes[i].body);
-          cardBody.prepend(button);
-          card.append(cardBody);
-          $(".article-notes").prepend(card);
+          addCard(dbArticle.notes[i]._id, dbArticle.notes[i].body);
         }
       }
     })
-
     $(".notes-modal").modal("show");
   })
 
@@ -65,22 +56,24 @@ $(document).ready(function() {
           body: noteText
         }
       })
-      .then(function() {
-        document.location.reload();
+      .then(function(dbNote) {
+        // Adds card for note to the modal
+        addCard(dbNote._id, dbNote.body);
+
+        // clears textarea
+        $(".note-body").val("");
       })
     }
   })
 
-  // Deletes a note frmo the article
+  // Deletes a note from the article
   $(document).on("click", ".delete-note-btn", function() {
     var noteId = $(this).attr("data-id");
+    $(this).parent().parent().remove();
     console.log(noteId);
     $.ajax({
       url: "/api/notes/" + noteId,
       method: "DELETE"
-    })
-    .then(function() {
-      document.location.reload();
     })
   })
 
@@ -114,3 +107,15 @@ $(document).ready(function() {
     })
   })
 });
+
+function addCard(noteId, noteBody) {
+  var card = $("<div>").addClass("card");
+  var cardBody = $("<div>").addClass("card-body");
+  var button = "<button type='button' class='btn btn-danger delete-note-btn mr-3'"
+  button += " role='button' data-id=\'" + noteId + "\'>";
+  button += "X</button>";
+  cardBody.text(noteBody);
+  cardBody.prepend(button);
+  card.append(cardBody);
+  $(".article-notes").prepend(card);
+}

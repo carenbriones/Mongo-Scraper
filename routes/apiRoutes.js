@@ -80,10 +80,12 @@ module.exports = function(app) {
     console.log(req.body);
     db.Note.create(req.body)
       .then(function(dbNote) {
-        return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true})
-      })
-      .then(function(dbArticle) {
-        res.json(dbArticle);
+        db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true})
+          .then(function() {
+            res.json(dbNote);
+          }).catch(function(err) {
+            res.json(err);
+          })
       })
       .catch(function(err) {
         res.json(err);
