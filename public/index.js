@@ -71,6 +71,7 @@ $(document).ready(function() {
     }
   })
 
+  // Deletes a note frmo the article
   $(document).on("click", ".delete-note-btn", function() {
     var noteId = $(this).attr("data-id");
     console.log(noteId);
